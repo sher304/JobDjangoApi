@@ -15,6 +15,10 @@ class Ads(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def total_likes(self):
+        return self.likes.count()
+
 
 class CodeImage(models.Model):
     image = models.ImageField(upload_to='images')
