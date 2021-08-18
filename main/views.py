@@ -75,3 +75,11 @@ class AddStarRatingView(PermissionMixin, ModelViewSet):
 class LikesView(PermissionMixin, ModelViewSet):
     queryset = Likes.objects.all()
     serializer_class = LikeSerializer
+
+    @action(detail=False, methods=['get'])
+    def favorite(self, request, pk=None):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(author=request.user)
+        serializer = LikeSerializer(queryset, many=True,
+                                    context={'request': request})
+        return Response(serializer.data, status=200)
