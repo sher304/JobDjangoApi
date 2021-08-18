@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Ads, CodeImage, Reply, Rating
+from .models import Ads, CodeImage, Reply, Rating, Likes
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -20,6 +20,8 @@ class AdsSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['images'] = ImageSerializer(instance.images.all(),
                                                    many=True).data
+        representation['likes'] = Likes.objects.filter(liked_ads=instance).count()
+
         action = self.context.get('action')
         if action == 'list':
             representation['replies'] = instance.replies.count()
@@ -30,9 +32,7 @@ class AdsSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request = self.context.get('request')
-        # print(request.user)
         images_data = request.FILES
-        # print(images_data)
         problem = Ads.objects.create(
                                     author=request.user,
                                     **validated_data)
@@ -87,3 +87,19 @@ class CreateRatingSerializer(serializers.ModelSerializer):
         return rating
 
 
+class LikeSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.email')
+
+    class Meta:
+        model = Likes
+        fields = '__all__'
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = request.user
+        ads = validated_data.get('liked_ads')
+
+        if Likes.objects.filter(author=user, liked_ads=ads):
+            return Likes.objects.get(author=user, liked_ads=ads)
+        else:
+            return Likes.objects.create(author=user, liked_ads=ads)

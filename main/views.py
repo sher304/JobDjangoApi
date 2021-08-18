@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from main.models import Ads, Reply, Rating
+from main.models import Ads, Reply, Rating, Likes
 from main.permissions import IsAuthorPermission
-from main.serializers import ReplySerializer, AdsSerializer, CreateRatingSerializer
+from main.serializers import ReplySerializer, AdsSerializer, CreateRatingSerializer, LikeSerializer
 
 
 class PermissionMixin:
@@ -66,10 +66,12 @@ class AddStarRatingView(PermissionMixin, ModelViewSet):
     serializer_class = CreateRatingSerializer
 
     def post(self, request):
-        print('2222222222222222')
-        print(request.data)
         serializer = CreateRatingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=201)
 
+
+class LikesView(PermissionMixin, ModelViewSet):
+    queryset = Likes.objects.all()
+    serializer_class = LikeSerializer

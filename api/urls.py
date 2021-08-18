@@ -26,7 +26,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 # from main.views import ProblemViewSet, ReplyViewSet, CommentViewSet
-from main.views import AdsViewSet, ReplyViewSet, AddStarRatingView
+from main.views import AdsViewSet, ReplyViewSet, AddStarRatingView, LikesView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -45,14 +45,13 @@ router = DefaultRouter()
 router.register('ads', AdsViewSet)
 router.register('replies', ReplyViewSet)
 router.register('rating', AddStarRatingView)
+router.register('like', LikesView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/docs', schema_view.with_ui()),
     path('api/v1/', include(router.urls)),
     path('api/v1/', include('account.urls')),
-    # path('api/v1/rating/', AddStarRatingView.as_view()),
-
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

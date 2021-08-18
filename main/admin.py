@@ -19,3 +19,4 @@ class ProblemAdmin(admin.ModelAdmin):
 admin.site.register(Rating)
 admin.site.register(Reply)
 admin.site.register(RatingStar)
+admin.site.register(Likes)

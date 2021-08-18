@@ -68,3 +68,10 @@ class Rating(models.Model):
     class Meta:
         verbose_name = 'Rating'
         verbose_name_plural = 'Ratings'
+
+
+class Likes(models.Model):
+    liked_ads = models.ForeignKey(Ads, on_delete=models.CASCADE,
+                                  related_name='ads_likes')
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
+                               related_name='author_likes')
