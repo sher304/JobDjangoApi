@@ -22,10 +22,14 @@ def send_activation_code(email, activation_code, status):
             fail_silently=False
         )
     elif status == 'reset_password':
+
+        # msg_html = render_to_string('activation_code.html')
+
         send_mail(
             'Reset your password',
             f'Code activations: {activation_code}',
             'stackoverflow@gmail.com',
             [email, ],
+            html_message=msg_html,
             fail_silently=False
         )

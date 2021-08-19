@@ -45,9 +45,9 @@ class AdsViewSet(PermissionMixin, ModelViewSet):
     @action(detail=False, methods=['get'])
     def search(self, request, pk=None):
         q = request.query_params.get('q')
-        queryset = self.get_queryset()
+        queryset = Ads.objects.all()
         queryset = queryset.filter(Q(title__icontains=q) |
-                                   Q(author__icontains=q))
+                                   Q(description__icontains=q))
         serializers = AdsSerializer(queryset, many=True,
                                     context={'request': request})
         return Response(serializers.data, status=status.HTTP_200_OK)
@@ -99,4 +99,4 @@ class ParserModelView(ModelViewSet):
         image = vacations.get('image')
         work_type = vacations.get('work_type')
         RealVacation.objects.create(company=company, position=position,
-                                price=price, image=image, work_type=work_type)
+                                    price=price, image=image, work_type=work_type)

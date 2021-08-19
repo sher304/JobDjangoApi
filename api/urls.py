@@ -30,9 +30,9 @@ from main.views import AdsViewSet, ReplyViewSet, AddStarRatingView, LikesView, P
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="StackOverFlow API",
+      title="Jobs",
       default_version='v1',
-      description="Hello from python 12!",
+      description="Hello my brother, welcome to my channel! Pls subscribe to me!",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
