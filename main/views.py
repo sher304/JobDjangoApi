@@ -7,10 +7,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from main.models import Ads, Reply, Rating, Likes
+from main.models import Ads, Reply, Rating, Likes, RealVacation
 from main.permissions import IsAuthorPermission
-from main.serializers import ReplySerializer, AdsSerializer, CreateRatingSerializer, LikeSerializer
+from main.serializers import ReplySerializer, AdsSerializer, CreateRatingSerializer, LikeSerializer, \
+    RealVacationSerializer
 
+from parser import main
 
 class PermissionMixin:
     def get_permissions(self):
@@ -83,3 +85,18 @@ class LikesView(PermissionMixin, ModelViewSet):
         serializer = LikeSerializer(queryset, many=True,
                                     context={'request': request})
         return Response(serializer.data, status=200)
+
+
+class ParserModelView(ModelViewSet):
+    queryset = RealVacation.objects.all()
+    serializer_class = RealVacationSerializer
+
+    def create_vacation_view(self, request):
+        vacations = main()
+        company = vacations.get('company')
+        position = vacations.get('position')
+        price = vacations.get('price')
+        image = vacations.get('image')
+        work_type = vacations.get('work_type')
+        RealVacation.objects.create(company=company, position=position,
+                                price=price, image=image, work_type=work_type)

@@ -8,6 +8,6 @@ urlpatterns = [
     path('activate/<str:email>/<str:activation_code>/', ActivationView.as_view(), name='activate_url'),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('forgot-password/', ForgotPasswordView.as_view()),
-    path('forgot-password-complete/', CompleteResetPassword.as_view()),
+    path('reset-password/', ForgotPasswordView.as_view()),
+    path('reset-password-complete/', CompleteResetPassword.as_view()),
 ]

@@ -75,3 +75,14 @@ class Likes(models.Model):
                                   related_name='ads_likes')
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
                                related_name='author_likes')
+
+
+class RealVacation(models.Model):
+    company = models.CharField(max_length=150)
+    position = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='images', blank=True, null=True)
+    price = models.CharField(max_length=70)
+    work_type = models.CharField(max_length=80)
+
+    def __str__(self):
+        return self.company

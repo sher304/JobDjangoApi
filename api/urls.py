@@ -26,7 +26,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 # from main.views import ProblemViewSet, ReplyViewSet, CommentViewSet
-from main.views import AdsViewSet, ReplyViewSet, AddStarRatingView, LikesView
+from main.views import AdsViewSet, ReplyViewSet, AddStarRatingView, LikesView, ParserModelView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -46,6 +46,7 @@ router.register('ads', AdsViewSet)
 router.register('replies', ReplyViewSet)
 router.register('rating', AddStarRatingView)
 router.register('like', LikesView)
+router.register('vacations', ParserModelView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

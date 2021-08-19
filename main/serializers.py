@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Ads, CodeImage, Reply, Rating, Likes
+from .models import Ads, CodeImage, Reply, Rating, Likes, RealVacation
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -103,3 +103,18 @@ class LikeSerializer(serializers.ModelSerializer):
             return Likes.objects.get(author=user, liked_ads=ads)
         else:
             return Likes.objects.create(author=user, liked_ads=ads)
+
+
+class RealVacationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RealVacation
+        fields = '__all__'
+
+    def create(self, validated_data):
+        requests = self.context.get('request')
+        vacation = validated_data.get('company')
+        if RealVacation.objects.filter(company=vacation):
+            return RealVacation.objects.get(company=vacation)
+        else:
+            return RealVacation.objects.create(compnay=vacation)
