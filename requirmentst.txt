@@ -7,3 +7,4 @@ djangorestframework_simplejwt
 drf-yasg
 beautifulsoup4
 lxml
+qunicorn

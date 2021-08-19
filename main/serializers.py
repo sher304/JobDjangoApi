@@ -8,6 +8,14 @@ class ImageSerializer(serializers.ModelSerializer):
         model = CodeImage
         fields = ('image',)
 
+    #
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation["reviews"] = ReviewSerializer(instance.reviews.all(), many=True).data
+    #     representation["rating"] = self.get_rating(instance)
+    #     representation["images"] = ImageSerializer(instance.posters.all(), many=True).data
+    #     return representation
+
 
 class AdsSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.email')
@@ -21,6 +29,7 @@ class AdsSerializer(serializers.ModelSerializer):
         representation['images'] = ImageSerializer(instance.images.all(),
                                                    many=True).data
         representation['likes'] = Likes.objects.filter(liked_ads=instance).count()
+        representation['rating'] = Rating.objects.filter(ads=instance).count()
 
         action = self.context.get('action')
         if action == 'list':
@@ -61,7 +70,6 @@ class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
         fields = '__all__'
-
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -118,3 +126,4 @@ class RealVacationSerializer(serializers.ModelSerializer):
             return RealVacation.objects.get(company=vacation)
         else:
             return RealVacation.objects.create(compnay=vacation)
+

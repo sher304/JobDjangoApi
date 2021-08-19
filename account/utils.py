@@ -30,6 +30,6 @@ def send_activation_code(email, activation_code, status):
             f'Code activations: {activation_code}',
             'stackoverflow@gmail.com',
             [email, ],
-            html_message=msg_html,
+            # html_message=msg_html,
             fail_silently=False
         )
